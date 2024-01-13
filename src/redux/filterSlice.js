@@ -34,9 +34,8 @@ export const filterSlice = createSlice({
     },
     setFiltersFromURL: (state, action) => {
       state.category = action.payload.category;
-      state.urlHasSearchParams = true;
-    },
-    setUrl: (state, action) => {
+      state.currentPage = action.payload.currentPage;
+      state.sort = action.payload.sort;
       state.urlHasSearchParams = true;
     },
   },
@@ -50,6 +49,5 @@ export const {
   setSearchQuery,
   setTotalPages,
   setFiltersFromURL,
-  setUrl,
 } = filterSlice.actions;
 export default filterSlice.reducer;
