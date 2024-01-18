@@ -7,18 +7,13 @@ const EmptyCart = () => {
     <div className="cart cart--empty">
       <h2>Корзина пустая 😕</h2>
       <p>
-        Вероятней всего, вы не заказывали ещё пиццу. Для того, чтобы заказать пиццу, перейди на
-        главную страницу.
+        Вероятней всего, вы не заказывали ещё пиццу. Для того, чтобы заказать пиццу, перейди на главную
+        страницу.
       </p>
       <img src={emptyCart} alt="Empty Cart" />
       <div className="cart__bottom-buttons">
-        <Link to="/" class="button go-back-btn button--black ">
-          <svg
-            width="8"
-            height="14"
-            viewBox="0 0 8 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+        <Link to="/" className="button go-back-btn button--black ">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M7 13L1 6.93015L6.86175 1"
               stroke="#D3D3D3"

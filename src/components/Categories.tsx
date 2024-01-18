@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCategory } from '../redux/filterSlice';
+import { RootState } from '../redux/store';
 
-function Categories() {
+const Categories = () => {
   //const [activeCategory, setActiveCategory] = useState(1);
 
-  // вместо state мы создали состояние category в слайсе filter  - там заданили начальное значение 1
+  // вместо state мы создали состояние category в слайсе filter  - там задали начальное значение 1
   // изменяем ее через dispatch(setActiveCategory(category.id))
 
   const dispatch = useDispatch();
-  const activeCategory = useSelector((state) => state.filter.category); // получаем текущую категорию из filterSlice
+  const activeCategory = useSelector((state: RootState) => state.filter.category); // получаем текущую категорию из filterSlice
 
   const categories = [
     { id: 0, name: 'Все' },
@@ -35,6 +34,6 @@ function Categories() {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;

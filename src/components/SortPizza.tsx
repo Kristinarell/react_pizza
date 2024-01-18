@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveSort } from '../redux/filterSlice';
+import { TSort, setActiveSort } from '../redux/filterSlice';
+import { RootState } from '../redux/store';
 
-export const sorts = [
+export const sorts: TSort[] = [
   { id: 1, name: 'популярности', sortProperty: 'rating', order: 'asc' },
   { id: 2, name: 'цене', sortProperty: 'price', order: 'asc' },
   { id: 3, name: 'алфавиту', sortProperty: 'title', order: 'asc' },
 ];
 
-export default function SortPizza() {
-  const [isPopUp, setIsPopUp] = useState(false);
+const SortPizza: React.FC = () => {
+  const [isPopUp, setIsPopUp] = useState<boolean>(false);
 
   //const [currentFilter, setCurrentFilter] = useState(filters[0].name);
 
   const dispatch = useDispatch();
-  const activeSort = useSelector((state) => state.filter.sort);
+  const activeSort = useSelector((state: RootState) => state.filter.sort);
 
   return (
     <div className="sort">
@@ -73,4 +74,6 @@ export default function SortPizza() {
       )}
     </div>
   );
-}
+};
+
+export default SortPizza;

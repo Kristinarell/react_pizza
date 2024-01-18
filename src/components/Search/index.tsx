@@ -2,15 +2,15 @@ import React, { useCallback, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from '../../redux/filterSlice';
-import { debounce } from 'lodash';
+import debounce from 'lodash.debounce';
 
 function Search() {
   const dispatch = useDispatch();
-  const inputRef = useRef();
-  const [inputValue, setInputValue] = useState(``);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState<string>(``);
 
   const handleInputFetching = useCallback(
-    debounce((inputValue) => {
+    debounce((inputValue: string) => {
       dispatch(setSearchQuery(inputValue));
       console.log('отправили запрос со сторокой', inputValue);
     }, 700),
@@ -55,7 +55,7 @@ function Search() {
       <input
         ref={inputRef}
         value={inputValue}
-        onChange={(event) => {
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setInputValue(event.target.value);
           handleInputFetching(event.target.value);
         }}
@@ -66,7 +66,7 @@ function Search() {
         onClick={() => {
           dispatch(setSearchQuery(``));
           setInputValue(``);
-          inputRef.current.focus();
+          inputRef.current?.focus();
         }}
         className={styles.clearIcon}
         viewBox="0 0 20 20"

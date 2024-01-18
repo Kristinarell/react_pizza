@@ -1,29 +1,42 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '@mui/material/Pagination';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
 import SortPizza from '../components/SortPizza';
 import Pizza from '../components/Pizza';
 import Skeleton from '../components/Skeleton';
 import { sorts as sortsList } from '../components/SortPizza';
-import { setTotalPages, setCurrentPage, selectFilter, setFiltersFromURL, setUrl } from '../redux/filterSlice';
+import {
+  setTotalPages,
+  setCurrentPage,
+  selectFilter,
+  setFiltersFromURL,
+  setActiveCategory,
+} from '../redux/filterSlice';
 import { selectItems, fetchItems } from '../redux/pizzaSlice';
+import { RootState, useAppDispatch } from '../redux/store';
 
-export default function HomePage() {
+const HomePage = () => {
   const [searchParams, setSeatchParams] = useSearchParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const items = useSelector(selectItems);
-  const status = useSelector((state) => state.pizza.status);
+  const status = useSelector((state: RootState) => state.pizza.status);
   const { category, sort, currentPage, searchQuery, totalPages, itemsPerPage } = useSelector(selectFilter);
 
-  const wasFirstRender = useRef(false);
-  const isSearchParams = useRef(false);
+  const wasFirstRender = useRef<boolean>(false);
+  const isSearchParams = useRef<boolean>(false);
 
   useEffect(() => {
-    if (wasFirstRender.current) setSeatchParams({ page: currentPage, category, sort: sort.sortProperty });
+    if (wasFirstRender.current)
+      setSeatchParams({
+        page: currentPage.toString(), // чтобы ts не ругался
+        category: category.toString(),
+        sort: sort.sortProperty,
+      });
     wasFirstRender.current = true;
   }, [category, currentPage, sort]);
 
@@ -32,9 +45,9 @@ export default function HomePage() {
       const currentSort = sortsList.find((obj) => obj.sortProperty === searchParams.get(`sort`));
       dispatch(
         setFiltersFromURL({
-          category: searchParams.get(`category`),
-          currentPage: searchParams.get(`page`),
-          sort: currentSort,
+          category: Number(searchParams.get(`category`)),
+          currentPage: Number(searchParams.get(`page`)),
+          sort: currentSort ? currentSort : sortsList[0],
         }),
       );
       isSearchParams.current = true;
@@ -47,12 +60,19 @@ export default function HomePage() {
     const sortBy = `&sortBy=${sort.sortProperty}&order=${sort.order}`;
 
     if (!isSearchParams.current)
-      dispatch(fetchItems({ categoryUrl, sortBy, currentPage, search, itemsPerPage })).then(
-        (fulfilledResult) => {
-          const totalCountItems = fulfilledResult?.payload?.totalCountItems;
-          dispatch(setTotalPages(totalCountItems)); // количество страниц будет посчитано только после того как выполнится fetchItems
-        },
-      );
+      dispatch(
+        fetchItems({
+          categoryUrl,
+          sortBy,
+          currentPage: String(currentPage),
+          search,
+          itemsPerPage: String(itemsPerPage),
+        }),
+      ).then((fulfilledResult) => {
+        // const totalCountItems = fulfilledResult?.payload?.totalCountItems;
+        const totalCountItems = (fulfilledResult?.payload as { totalCountItems: number })?.totalCountItems;
+        dispatch(setTotalPages(totalCountItems)); // количество страниц будет посчитано только после того как выполнится fetchItems
+      });
 
     isSearchParams.current = false;
   }, [category, currentPage, sort, searchQuery]);
@@ -95,7 +115,8 @@ export default function HomePage() {
       />
     </div>
   );
-}
+};
+export default HomePage;
 
 //  dispatch(fetchItems) отправляет это действие в Redux store, RT запускает асинхронное действие fetchItems,
 //  которое выполняет запрос данных. После успешного выполнения запроса,

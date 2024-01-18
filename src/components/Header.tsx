@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import logo from '../assets/pizza-logo.svg';
 
-import Search from '../components/Search';
+import Search from './Search';
+import { RootState } from '../redux/store';
 
 function Header() {
-  const { totalPrice, totalCount } = useSelector((state) => state.cart);
-  const category = useSelector((state) => state.filter.category);
+  const { totalPrice, totalCount } = useSelector((state: RootState) => state.cart);
+  const category = useSelector((state: RootState) => state.filter.category);
   return (
     <div className="header">
       <div className="container">

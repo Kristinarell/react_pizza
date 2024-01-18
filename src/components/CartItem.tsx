@@ -1,31 +1,26 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart, reduceQuantity } from '../redux/cartSlice';
+import { addToCart, removeFromCart, reduceQuantity, TCartItem } from '../redux/cartSlice';
 
-function CartItem({ item }) {
+const CartItem: React.FC<{ item: TCartItem }> = ({ item }) => {
   const { imageUrl, title, price, selectedSize, selectedType, quantity } = item;
   const dispatch = useDispatch();
   return (
-    <div class="cart__item">
-      <div class="cart__item-img">
-        <img class="pizza-block__image" src={imageUrl} alt="Pizza" />
+    <div className="cart__item">
+      <div className="cart__item-img">
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       </div>
-      <div class="cart__item-info">
+      <div className="cart__item-info">
         <h3>{title}</h3>
         <p>
           {selectedType}, {selectedSize} см.
         </p>
       </div>
-      <div class="cart__item-count">
+      <div className="cart__item-count">
         <div
           onClick={() => dispatch(reduceQuantity(item))}
-          class="button button--outline button--circle cart__item-count-minus">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+          className="button button--outline button--circle cart__item-count-minus">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"></path>
@@ -37,13 +32,8 @@ function CartItem({ item }) {
         <b>{quantity}</b>
         <div
           onClick={() => dispatch(addToCart(item))}
-          class="button button--outline button--circle cart__item-count-plus">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+          className="button button--outline button--circle cart__item-count-plus">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"></path>
@@ -53,19 +43,12 @@ function CartItem({ item }) {
           </svg>
         </div>
       </div>
-      <div class="cart__item-price">
+      <div className="cart__item-price">
         <b>{price * quantity} ₽</b>
       </div>
-      <div class="cart__item-remove">
-        <div
-          onClick={() => dispatch(removeFromCart(item))}
-          class="button button--outline button--circle">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+      <div className="cart__item-remove">
+        <div onClick={() => dispatch(removeFromCart(item))} className="button button--outline button--circle">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"></path>
@@ -77,6 +60,6 @@ function CartItem({ item }) {
       </div>
     </div>
   );
-}
+};
 
 export default CartItem;
