@@ -10,7 +10,7 @@ const findMatchingItem = (cartItems: TCartItem[], payload: TCartItem) => {
 };
 
 export type TCartItem = {
-  id: number;
+  id: string;
   imageUrl: string;
   title: string;
   price: number;

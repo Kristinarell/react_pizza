@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartSlice';
 import { TPizza } from '../redux/pizzaSlice';
+import { Link, useLocation } from 'react-router-dom';
 
 const Pizza: React.FC<{ pizza: TPizza }> = ({ pizza }) => {
   const pizzaTypes = ['тонкое', 'традиционное'];
@@ -9,11 +10,13 @@ const Pizza: React.FC<{ pizza: TPizza }> = ({ pizza }) => {
   const [activeType, setActiveType] = useState(pizza.types[0]);
 
   const dispatch = useDispatch();
-
+  const location = useLocation();
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={pizza.imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{pizza.title}</h4>
+      <Link to={`/pizza/${pizza.id}`} state={{ previousLocation: location }}>
+        <img className="pizza-block__image" src={pizza.imageUrl} alt="Pizza" />
+        <h4 className="pizza-block__title">{pizza.title}</h4>
+      </Link>
 
       <div className="pizza-block__selector">
         <ul>

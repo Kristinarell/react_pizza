@@ -21,7 +21,7 @@ export const fetchItems = createAsyncThunk<FetchItemsResponse, Record<string, st
 );
 
 export type TPizza = {
-  id: number;
+  id: string;
   title: string;
   imageUrl: string;
   sizes: number[];
